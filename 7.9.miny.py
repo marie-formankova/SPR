@@ -8,30 +8,37 @@ class Hra:
     def n_list(self, n):
         return [0]*n
 
+    def end(self):
+        print('GAME OVER:(')
+
     def zobr_pole(self, pole):
         print('\n\n')
-        
+        self.prohra = False
         for radek in self.pole:
             self.c=0
             for n in radek:
                 if self.c==j-1:
-                    if n==0 or n==1:
-                        print(' . ')
-                    if n==2:
+                    if n is not None and n>0:
+                        print(f' {min(2,self.count-1)} ')
+                        n=self.count-1
+                    elif n is not None and n<0:
                         print(' * ')
-                    if n<0:
-                        print(' O ' )
+                        self.prohra =True
+                    else: 
+                        print(' . ')
                 else:
-                    if n==0 or n==1:
-                        print(' . ', end='')
-                    if n==2:
+                    if n is not None and n>0:
+                        print(f' {min(self.count-1,2)} ', end = '')
+                        n=self.count-1
+                    elif n is not None and n<0:
                         print(' * ', end='')
-                    if n<0:
-                        print(' O ', end='' )
+                        self.prohra =True
+                    else:
+                        print(' . ', end='')
                     self.c+=1
-        print('\n\n')
-        self.tah(self.pole)
-                
+        if self.prohra==True: self.end()
+        print('\n\n')  
+        self.tah(pole)       
 
     def pole(self):
         self.pole=[]
@@ -47,13 +54,14 @@ class Hra:
             self.rand2=randint(0,3)
             self.mina =self.pole[self.rand1][self.rand2]
             
-            if self.mina==1:
-                self.mina = 1
+            if self.mina==None:
+                self.mina = None
             else:
-                self.mina=self.mina+1
+                self.mina=None
                 self.pole[self.rand1][self.rand2]=self.mina
                 self.i=self.i-1
-        #print(self.pole) zobrazi skryty dvourozmerny seznam min a volnych poli
+        print(self.pole) 
+        #zobrazi skryty dvourozmerny seznam min a volnych poli
         self.zobr_pole(self.pole)
         return self.pole
 
@@ -61,6 +69,19 @@ class Hra:
         print('\n\n')
         print('TYTO SOUŘADNICE JSOU NEPLATNÉ\n')
         self.tah(pole)
+
+    def game_over(self,pole,a,b):
+        self.pole[a][b] = -1
+        self.zobr_pole(pole)
+
+    def hraci_pole(self, pole, a, b):
+        if pole[a][b] is None:
+            self.game_over(pole,a,b)
+        self.neighbors= [pole[max(0, a-1)][max(0,b-1)],pole[a][max(0,b-1)], pole[min(j-1, a+1)][max(0,b-1)],pole[max(0, a-1)][b],pole[max(0, a-1)][max(0,b-1)],pole[min(a+1,j-1)][b], pole[max(0, a-1)][min(j-1,b+1)], pole[a][min(j-1,b+1)],pole[min(j-1, a+1)][min(j-1,b+1)]]
+        self.count = sum(x is None for x in self.neighbors)+1
+
+        pole[a][b] = self.count
+        self.zobr_pole(pole)
 
     def tah(self, pole):
         self.inp = input(f'Zadej souřadnice (0 až {j-1} ):  řádek,sloupec\n')
@@ -72,15 +93,8 @@ class Hra:
         if self.a not in range(j) or self.b not in range(j):
             self.nepl_tah(pole)
 
-        self.t =pole[self.a][self.b]
-        self.t+=1
-        if self.t==1:
-            pole[self.a][self.b]=-1
-        else:
-            pole[self.a][self.b]=self.t
-        self.zobr_pole(pole)
+        self.hraci_pole(pole, self.a, self.b)
        
         
        
 k = Hra()
-
