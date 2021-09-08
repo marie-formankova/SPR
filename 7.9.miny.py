@@ -10,10 +10,11 @@ class Hra:
 
     def zobr_pole(self, pole):
         print('\n\n')
+        
         for radek in self.pole:
             self.c=0
             for n in radek:
-                if self.c==3:
+                if self.c==j-1:
                     if n==0 or n==1:
                         print(' . ')
                     if n==2:
@@ -34,10 +35,10 @@ class Hra:
 
     def pole(self):
         self.pole=[]
-        global n
-        n=4
-        for _ in range(n):
-            radek = self.n_list(n)
+        global j
+        j=6
+        for _ in range(j):
+            radek = self.n_list(j)
             self.pole.append(radek)
        
         self.i = 2
@@ -62,13 +63,13 @@ class Hra:
         self.tah(pole)
 
     def tah(self, pole):
-        self.inp = input('Zadej souřadnice (0 až 3):  řádek,sloupec\n')
+        self.inp = input(f'Zadej souřadnice (0 až {j-1} ):  řádek,sloupec\n')
         try:
             self.a = int(self.inp[0])
             self.b = int(self.inp[-1])
         except:
-            self.nepl_tah()
-        if self.a not in range(n) or self.b not in range(n):
+            self.nepl_tah(pole)
+        if self.a not in range(j) or self.b not in range(j):
             self.nepl_tah(pole)
 
         self.t =pole[self.a][self.b]
@@ -77,9 +78,9 @@ class Hra:
             pole[self.a][self.b]=-1
         else:
             pole[self.a][self.b]=self.t
-
         self.zobr_pole(pole)
        
         
        
 k = Hra()
+
