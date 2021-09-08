@@ -9,6 +9,7 @@ class Hra:
         return [0]*n
 
     def zobr_pole(self, pole):
+        print('\n\n')
         for radek in self.pole:
             self.c=0
             for n in radek:
@@ -27,12 +28,13 @@ class Hra:
                     if n<0:
                         print(' O ', end='' )
                     self.c+=1
-
+        print('\n\n')
         self.tah(self.pole)
                 
 
     def pole(self):
         self.pole=[]
+        global n
         n=4
         for _ in range(n):
             radek = self.n_list(n)
@@ -50,16 +52,25 @@ class Hra:
                 self.mina=self.mina+1
                 self.pole[self.rand1][self.rand2]=self.mina
                 self.i=self.i-1
-        print(self.pole)
-        self.hraci_pole = self.zobr_pole(self.pole)
+        #print(self.pole) zobrazi skryty dvourozmerny seznam min a volnych poli
+        self.zobr_pole(self.pole)
         return self.pole
 
-    
+    def nepl_tah(self, pole):
+        print('\n\n')
+        print('TYTO SOUŘADNICE JSOU NEPLATNÉ\n')
+        self.tah(pole)
+
     def tah(self, pole):
         self.inp = input('Zadej souřadnice (0 až 3):  řádek,sloupec\n')
-        self.a = int(self.inp[0])
-        self.b = int(self.inp[-1])
-        print(self.a,'   ',self.b)
+        try:
+            self.a = int(self.inp[0])
+            self.b = int(self.inp[-1])
+        except:
+            self.nepl_tah()
+        if self.a not in range(n) or self.b not in range(n):
+            self.nepl_tah(pole)
+
         self.t =pole[self.a][self.b]
         self.t+=1
         if self.t==1:
@@ -68,5 +79,7 @@ class Hra:
             pole[self.a][self.b]=self.t
 
         self.zobr_pole(pole)
-
+       
+        
+       
 k = Hra()
