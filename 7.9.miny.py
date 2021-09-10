@@ -23,7 +23,7 @@ class Hra:
             self.hpole[self.n] = 0
         m=3
         while m>0:
-            self.mina = randint(0,self.n)
+            self.mina = randint(self.n-6,self.n-3)
             if self.hpole[self.mina] ==None:
                 pass
             else:
@@ -35,10 +35,12 @@ class Hra:
     def add_ns(self, mina):
         self.sousedi =[-7,-6,-5,-1,1,5,6,7]
         for l in self.sousedi:
-            try:
-                self.hpole[mina+l]+=1
-            except:
-                k=1
+            if (mina+1)%6==0 and l not in [-5,1,7]: 
+                if mina%6==0 and l not in [-7,-1,5]:
+                    try:
+                        self.hpole[mina+l]+=1
+                    except:
+                        k=1
 
     def zobr(self):
         c = 0
@@ -70,6 +72,7 @@ class Hra:
         if self.prohra==True:
             self.end()
         else:
+            self.check_winner()
             self.tah()
         
     def end(self):
@@ -92,12 +95,22 @@ class Hra:
         else:
             self.hpole[self.key] = self.hpole[self.key]+1000
             self.prohra = False
-
         self.zobr()
 
     def nepl_tah(self):
-        print('\n\n')
-        print('TYTO SOUŘADNICE JSOU NEPLATNÉ\n')
+        print('\n\nTYTO SOUŘADNICE JSOU NEPLATNÉ\n')
         self.tah()
+
+    def check_winner(self):
+        w = 0
+        for i in range(36):
+            if self.hpole[i] is not None:
+                if self.hpole[i]>1000:
+                    w+=1
+        if w==32:
+            self.win()
+
+    def win():
+        print('\n\nVYHRÁLI JSTE!\n\n')
 
 k = Hra()
