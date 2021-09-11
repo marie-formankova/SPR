@@ -34,18 +34,25 @@ class Hra:
         
     def add_ns(self, mina):
         self.sousedi =[-7,-6,-5,-1,1,5,6,7]
-        for l in self.sousedi:
-            if (mina+1)%6==0:
-                for r in [-7,-6,-1,5,6]:
-                    self.hpole[mina+r]+=1 
-            elif mina%6==0:
-                for s in [-6,-5,1,6,7]:
-                    self.hpole[mina+s]+=1 
-            else:
+        
+        if (mina+1)%6==0:
+            for r in [-7,-6,-1,5,6]:
                 try:
-                    self.hpole[mina+l]+=1
+                    self.hpole[mina+r]+=1 
                 except:
-                    v=0
+                    v=1
+        elif mina%6==0:
+            for s in [-6,-5,1,6,7]:
+                try:
+                    self.hpole[mina+s]+=1 
+                except:
+                    v=3
+        else:
+            try:
+                for l in self.sousedi:
+                    self.hpole[mina+l]+=1
+            except:
+                v=0
                 
     def zobr(self):
         c = 0
@@ -77,7 +84,6 @@ class Hra:
         if self.prohra==True:
             self.end()
         else:
-            self.check_winner()
             self.tah()
         
     def end(self):
@@ -112,10 +118,7 @@ class Hra:
             if self.hpole[i] is not None:
                 if self.hpole[i]>1000:
                     w+=1
-        if w==32:
+        if w==31:
             self.win()
-
-    def win():
-        print('\n\nVYHRÁLI JSTE!\n\n')
 
 k = Hra()
