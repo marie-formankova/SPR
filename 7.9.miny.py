@@ -23,7 +23,7 @@ class Hra:
             self.hpole[self.n] = 0
         m=3
         while m>0:
-            self.mina = randint(self.n-6,self.n-3)
+            self.mina = randint(0,self.n)
             if self.hpole[self.mina] ==None:
                 pass
             else:
@@ -35,13 +35,18 @@ class Hra:
     def add_ns(self, mina):
         self.sousedi =[-7,-6,-5,-1,1,5,6,7]
         for l in self.sousedi:
-            if (mina+1)%6==0 and l not in [-5,1,7]: 
-                if mina%6==0 and l not in [-7,-1,5]:
-                    try:
-                        self.hpole[mina+l]+=1
-                    except:
-                        k=1
-
+            if (mina+1)%6==0:
+                for r in [-7,-6,-1,5,6]:
+                    self.hpole[mina+r]+=1 
+            elif mina%6==0:
+                for s in [-6,-5,1,6,7]:
+                    self.hpole[mina+s]+=1 
+            else:
+                try:
+                    self.hpole[mina+l]+=1
+                except:
+                    v=0
+                
     def zobr(self):
         c = 0
         for n in range(36):
@@ -79,11 +84,11 @@ class Hra:
         print('\n\nŠLÁPLI JSTE NA MINU. HRA SKONČILA!\n\n')
 
     def tah(self):
-        self.inp1 = input('Zadej souřadnici řádku (0 až 5 ):\n')
-        self.inp2 = input('Zadej souřadnici sloupce (0 až 5 ):\n')
+        self.inp1 = input('Zadej souřadnici řádku (1 až 6 ):\n')
+        self.inp2 = input('Zadej souřadnici sloupce (1 až 6 ):\n')
         try:
-            self.a = int(self.inp1[0])
-            self.b = int(self.inp2[0])
+            self.a = int(self.inp1[0])-1
+            self.b = int(self.inp2[0])-1
         except:
             self.nepl_tah()
         if self.a not in range(6) or self.b not in range(6):
