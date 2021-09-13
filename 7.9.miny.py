@@ -30,7 +30,7 @@ class Hra:
                 self.hpole[self.mina] = None
                 m=m-1
                 self.add_ns(self.mina)
-        print(self.hpole)
+        #print(self.hpole)
         
     def add_ns(self, mina):
         self.sousedi =[-7,-6,-5,-1,1,5,6,7]
@@ -88,13 +88,14 @@ class Hra:
         
     def end(self):
         print('\n\nŠLÁPLI JSTE NA MINU. HRA SKONČILA!\n\n')
+        exit()
 
     def tah(self):
         self.inp1 = input('Zadej souřadnici řádku (1 až 6 ):\n')
         self.inp2 = input('Zadej souřadnici sloupce (1 až 6 ):\n')
         try:
-            self.a = int(self.inp1[0])-1
-            self.b = int(self.inp2[0])-1
+            self.a = int(self.inp1)-1
+            self.b = int(self.inp2)-1
         except:
             self.nepl_tah()
         if self.a not in range(6) or self.b not in range(6):
@@ -111,14 +112,5 @@ class Hra:
     def nepl_tah(self):
         print('\n\nTYTO SOUŘADNICE JSOU NEPLATNÉ\n')
         self.tah()
-
-    def check_winner(self):
-        w = 0
-        for i in range(36):
-            if self.hpole[i] is not None:
-                if self.hpole[i]>1000:
-                    w+=1
-        if w==31:
-            self.win()
 
 k = Hra()
